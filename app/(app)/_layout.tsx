@@ -1,4 +1,5 @@
-import { Redirect, Stack } from "expo-router";
+import { useEffect } from "react";
+import { Redirect, Stack, useRouter } from "expo-router";
 import { ActivityIndicator, Text, View } from "react-native";
 import { useTheme } from "@shopify/restyle";
 import {
@@ -6,6 +7,7 @@ import {
   useDatabaseReady,
 } from "@salve-software/react-native-salve-db";
 import { useStorage } from "@/infra/adapters/storage/hooks/useStorage";
+import { useScheduleNotification } from "@/infra/adapters/schedule-notification/hooks/useScheduleNotification";
 import { StorageKeys } from "@/infra/adapters/storage/types";
 import type { AuthPayload } from "@/modules/auth/domain/types";
 import { salveDbSchemas } from "@/infra/db/schemas";
@@ -18,7 +20,15 @@ import type { Theme } from "@/styles";
 // SalveDbProvider's mount effect has actually run.
 function AppShell() {
   const theme = useTheme<Theme>();
+  const router = useRouter();
+  const scheduleNotification = useScheduleNotification();
   const { isReady, isLoading, error } = useDatabaseReady();
+
+  useEffect(() => {
+    return scheduleNotification.addListener((habitId) => {
+      router.push({ pathname: "/(app)/habits/focus", params: { start: habitId } });
+    });
+  }, [scheduleNotification, router]);
 
   if (error) {
     return (
