@@ -2,9 +2,9 @@ import { StyleSheet } from "react-native";
 import { useTheme } from "@shopify/restyle";
 import type { Theme } from "@/styles";
 import { FONT_FAMILY } from "@/styles/fonts";
-import type { LedgerButtonVariant } from "./ledger-button";
+import type { ButtonVariant } from "./button";
 
-export function useLedgerButtonStyles({ variant, disabled }: { variant: LedgerButtonVariant; disabled: boolean }) {
+export function useButtonStyles({ variant, disabled }: { variant: ButtonVariant; disabled: boolean }) {
   const theme = useTheme<Theme>();
 
   return StyleSheet.create({
@@ -17,6 +17,12 @@ export function useLedgerButtonStyles({ variant, disabled }: { variant: LedgerBu
       borderWidth: variant === "primary" ? 0 : 1,
       borderColor: variant === "danger" ? theme.colors.feedbackError : theme.colors.hairline,
       opacity: disabled ? 0.5 : 1,
+    },
+    content: {
+      flexDirection: "row",
+      alignItems: "center",
+      justifyContent: "center",
+      gap: theme.spacing.sp8,
     },
     primaryLabel: {
       fontFamily: FONT_FAMILY.sansMedium,

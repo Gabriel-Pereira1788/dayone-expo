@@ -2,7 +2,7 @@ import { Controller } from "react-hook-form";
 import { Pressable, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { KeyboardAwareScrollView } from "react-native-keyboard-controller";
-import { AppText, FormField, LedgerButton, MonoLabel, SegmentedControl } from "@/shared/ui";
+import { AppText, Button, FormField, MonoLabel, SegmentedControl } from "@/shared/ui";
 import { DAY_OF_WEEK_OPTIONS, FREQUENCY_OPTIONS } from "@/modules/habit/utils";
 import { useNewHabitScreenViewModel } from "./new-habit-screen.viewmodel";
 import { useNewHabitScreenStyles } from "./new-habit-screen.styles";
@@ -130,7 +130,7 @@ export function NewHabitScreen() {
           </View>
         </View>
 
-        <LedgerButton label="Criar hábito" onPress={onSubmit} />
+        <Button label="Criar hábito" onPress={onSubmit} />
       </KeyboardAwareScrollView>
     </SafeAreaView>
   );

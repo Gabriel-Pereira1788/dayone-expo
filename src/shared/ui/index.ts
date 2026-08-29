@@ -5,6 +5,6 @@ export * from "./ContinuityTrack";
 export * from "./DashTrack";
 export * from "./FormField";
 export * from "./SegmentedControl";
-export * from "./LedgerButton";
+export * from "./Button";
 export * from "./ActionIcon";
 export * from "./IconButton";
