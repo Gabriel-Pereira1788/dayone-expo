@@ -8,5 +8,4 @@ export interface StorageImpl {
 
 export enum StorageKeys {
   SESSION = "@dayone/session",
-  DEVICE_ID = "@dayone/device-id",
 }
