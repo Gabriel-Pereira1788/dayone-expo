@@ -1,11 +1,11 @@
 import { Pressable, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
-import { AppText, LedgerButton, MonoLabel } from "@/shared/ui";
+import { AppText, MonoLabel } from "@/shared/ui";
 import { useProfileScreenViewModel } from "./profile-screen.viewmodel";
 import { useProfileScreenStyles } from "./profile-screen.styles";
 
 export function ProfileScreen() {
-  const { name, email, isLoggingOut, signOut, goBack } = useProfileScreenViewModel();
+  const { name, email, goBack } = useProfileScreenViewModel();
   const styles = useProfileScreenStyles();
 
   return (
@@ -23,13 +23,6 @@ export function ProfileScreen() {
             {email}
           </AppText>
         </View>
-
-        <LedgerButton
-          label={isLoggingOut ? "Saindo..." : "Sair"}
-          variant="danger"
-          onPress={() => signOut()}
-          disabled={isLoggingOut}
-        />
       </View>
     </SafeAreaView>
   );
