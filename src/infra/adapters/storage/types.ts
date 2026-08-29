@@ -1,0 +1,11 @@
+export interface StorageImpl {
+  setItem<T>(key: string, value: T): void;
+  getItem<T>(key: string): Promise<T | null>;
+  getItemSync<T>(key: string): T | null;
+  removeItem(key: string): void;
+  clearAll(): void;
+}
+
+export enum StorageKeys {
+  SESSION = "@dayone/session",
+}
