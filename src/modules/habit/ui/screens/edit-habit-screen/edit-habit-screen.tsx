@@ -3,12 +3,12 @@ import { Pressable, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { KeyboardAwareScrollView } from "react-native-keyboard-controller";
 import { AppText, FormField, LedgerButton, MonoLabel, SegmentedControl } from "@/shared/ui";
-import { FREQUENCY_OPTIONS } from "@/modules/habit/utils";
+import { DAY_OF_WEEK_OPTIONS, FREQUENCY_OPTIONS } from "@/modules/habit/utils";
 import { useEditHabitScreenViewModel } from "./edit-habit-screen.viewmodel";
 import { useEditHabitScreenStyles } from "./edit-habit-screen.styles";
 
 export function EditHabitScreen() {
-  const { form, onSubmit, habit, cancel } = useEditHabitScreenViewModel();
+  const { form, onSubmit, habit, cancel, frequency } = useEditHabitScreenViewModel();
   const styles = useEditHabitScreenStyles();
   const errors = form.formState.errors;
 
@@ -59,6 +59,31 @@ export function EditHabitScreen() {
             <SegmentedControl options={FREQUENCY_OPTIONS} value={field.value} onChange={field.onChange} />
           )}
         />
+
+        {frequency === "weekly" ? (
+          <Controller
+            control={form.control}
+            name="dayOfWeek"
+            render={({ field }) => (
+              <SegmentedControl options={DAY_OF_WEEK_OPTIONS} value={field.value ?? "0"} onChange={field.onChange} />
+            )}
+          />
+        ) : null}
+
+        {frequency === "monthly" ? (
+          <Controller
+            control={form.control}
+            name="dayOfMonth"
+            render={({ field }) => (
+              <FormField
+                label="Dia do mês"
+                keyboardType="numeric"
+                value={field.value ?? ""}
+                onChangeText={field.onChange}
+              />
+            )}
+          />
+        ) : null}
 
         <Controller
           control={form.control}

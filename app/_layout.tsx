@@ -17,6 +17,7 @@ import { DIProvider } from "@/infra/DI/context/DIContext";
 import { DIKeys } from "@/infra/DI/types";
 import { mmkvImpl } from "@/infra/adapters/storage/implementation/mmkv";
 import { restAuthServiceImpl } from "@/infra/adapters/auth/implementation/rest";
+import { rnScheduleNotificationImpl } from "@/infra/adapters/schedule-notification/implementation/rn-schedule-notification";
 
 if (__DEV__) {
   Salvetron.connect({ host: "localhost", enableNetworkCapture: true });
@@ -51,6 +52,7 @@ export default function RootLayout() {
                   config={(container) => {
                     container.registerService(DIKeys.Storage, mmkvImpl);
                     container.registerService(DIKeys.AuthService, restAuthServiceImpl);
+                    container.registerService(DIKeys.ScheduleNotification, rnScheduleNotificationImpl);
                   }}
                 >
                   <StatusBar style="auto" />

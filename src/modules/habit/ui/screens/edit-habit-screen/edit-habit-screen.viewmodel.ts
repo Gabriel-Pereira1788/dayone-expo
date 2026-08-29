@@ -14,6 +14,12 @@ function parseOptionalNumber(value: string | undefined): number {
   return Number.isFinite(parsed) ? parsed : 0;
 }
 
+function parseDayOfMonth(value: string | undefined): number {
+  if (!value || value.trim().length === 0) return 1;
+  const parsed = Number(value);
+  return Number.isFinite(parsed) ? parsed : 1;
+}
+
 const editHabitSchema = z.object({
   title: z.string().min(1, "Título obrigatório"),
   description: z.string().optional(),
@@ -21,6 +27,8 @@ const editHabitSchema = z.object({
   frequency: z.enum(["daily", "weekly", "monthly"]),
   startDate: z.string().min(1, "Data de início obrigatória"),
   endDate: z.string().optional(),
+  dayOfWeek: optionalNumber,
+  dayOfMonth: optionalNumber,
   hours: optionalNumber,
   minutes: optionalNumber,
 });
@@ -43,6 +51,8 @@ export function useEditHabitScreenViewModel() {
       frequency: "daily",
       startDate: "",
       endDate: "",
+      dayOfWeek: "0",
+      dayOfMonth: "1",
     },
   });
 
@@ -55,6 +65,8 @@ export function useEditHabitScreenViewModel() {
       frequency: habit.frequency as EditHabitFormValues["frequency"],
       startDate: habit.startDate,
       endDate: habit.endDate ?? "",
+      dayOfWeek: habit.dayOfWeek != null ? String(habit.dayOfWeek) : "0",
+      dayOfMonth: habit.dayOfMonth != null ? String(habit.dayOfMonth) : "1",
       hours: habit.hours != null ? String(habit.hours) : "",
       minutes: habit.minutes != null ? String(habit.minutes) : "",
     });
@@ -69,6 +81,8 @@ export function useEditHabitScreenViewModel() {
       frequency: parsed.frequency,
       startDate: parsed.startDate,
       endDate: parsed.endDate ?? "",
+      dayOfWeek: parseOptionalNumber(parsed.dayOfWeek),
+      dayOfMonth: parseDayOfMonth(parsed.dayOfMonth),
       hours: parseOptionalNumber(parsed.hours),
       minutes: parseOptionalNumber(parsed.minutes),
     });
@@ -79,5 +93,5 @@ export function useEditHabitScreenViewModel() {
     router.back();
   }
 
-  return { form, onSubmit, habit, cancel };
+  return { form, onSubmit, habit, cancel, frequency: form.watch("frequency") };
 }
