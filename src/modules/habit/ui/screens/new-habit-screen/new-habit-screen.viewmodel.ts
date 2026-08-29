@@ -13,6 +13,12 @@ function parseOptionalNumber(value: string | undefined): number {
   return Number.isFinite(parsed) ? parsed : 0;
 }
 
+function parseDayOfMonth(value: string | undefined): number {
+  if (!value || value.trim().length === 0) return 1;
+  const parsed = Number(value);
+  return Number.isFinite(parsed) ? parsed : 1;
+}
+
 const newHabitSchema = z.object({
   title: z.string().min(1, "Título obrigatório"),
   description: z.string().optional(),
@@ -42,6 +48,8 @@ export function useNewHabitScreenViewModel() {
       frequency: "daily",
       startDate: toDateKey(new Date()),
       endDate: "",
+      dayOfWeek: "0",
+      dayOfMonth: "1",
     },
   });
 
@@ -55,7 +63,7 @@ export function useNewHabitScreenViewModel() {
       startDate: parsed.startDate,
       endDate: parsed.endDate ?? "",
       dayOfWeek: parseOptionalNumber(parsed.dayOfWeek),
-      dayOfMonth: parseOptionalNumber(parsed.dayOfMonth),
+      dayOfMonth: parseDayOfMonth(parsed.dayOfMonth),
       hours: parseOptionalNumber(parsed.hours),
       minutes: parseOptionalNumber(parsed.minutes),
       targetDurationInDays: parseOptionalNumber(parsed.targetDurationInDays),
@@ -67,5 +75,5 @@ export function useNewHabitScreenViewModel() {
     router.back();
   }
 
-  return { form, onSubmit, cancel };
+  return { form, onSubmit, cancel, frequency: form.watch("frequency") };
 }
