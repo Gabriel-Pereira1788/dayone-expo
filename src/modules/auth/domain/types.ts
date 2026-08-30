@@ -14,17 +14,6 @@ export interface AuthPayload {
   User: User;
 }
 
-export interface LoginInput {
-  email: string;
-  password: string;
-}
-
-export interface RegisterInput {
-  name: string;
-  email: string;
-  password: string;
-}
-
 export interface CurrentUser {
   id: string;
   name: string;

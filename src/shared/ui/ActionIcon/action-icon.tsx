@@ -2,7 +2,7 @@ import Svg, { Circle, Line, Path } from "react-native-svg";
 import { useTheme } from "@shopify/restyle";
 import type { Theme } from "@/styles";
 
-export type ActionIconName = "check" | "uncheck" | "edit" | "delete" | "profile";
+export type ActionIconName = "check" | "uncheck" | "edit" | "delete";
 
 export interface ActionIconProps {
   name: ActionIconName;
@@ -68,18 +68,6 @@ export function ActionIcon({ name, color, size = 20 }: ActionIconProps) {
           />
           <Line x1={10.5} y1={10.5} x2={10.5} y2={15.5} stroke={strokeColor} strokeWidth={1.2} strokeLinecap="round" />
           <Line x1={13.5} y1={10.5} x2={13.5} y2={15.5} stroke={strokeColor} strokeWidth={1.2} strokeLinecap="round" />
-        </Svg>
-      );
-    case "profile":
-      return (
-        <Svg width={size} height={size} viewBox={viewBox} fill="none">
-          <Circle cx={12} cy={8.5} r={3.5} stroke={strokeColor} strokeWidth={1.4} />
-          <Path
-            d="M5 19.5C5 15.9 8.13 13 12 13C15.87 13 19 15.9 19 19.5"
-            stroke={strokeColor}
-            strokeWidth={1.4}
-            strokeLinecap="round"
-          />
         </Svg>
       );
   }

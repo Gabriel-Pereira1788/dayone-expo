@@ -72,7 +72,7 @@ export default function AppLayout() {
   const session = storage.getItemSync<AuthPayload>(StorageKeys.SESSION);
   console.log("Session", session);
   if (!session?.AccessToken) {
-    return <Redirect href="/(auth)/login" />;
+    return <Redirect href="/" />;
   }
 
   return (
