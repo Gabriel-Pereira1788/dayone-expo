@@ -23,7 +23,6 @@ export function HabitListScreen() {
     closedDay,
     openHabit,
     openNewHabit,
-    openProfile,
   } = useHabitListScreenViewModel();
   const styles = useHabitListScreenStyles();
 
@@ -43,7 +42,6 @@ export function HabitListScreen() {
           best={stats.best}
           segments={segments}
           onNewHabit={openNewHabit}
-          onOpenProfile={openProfile}
           onOpenHabit={(habitId) => openHabit(habitId, "done")}
         />
       </ThemeProvider>
@@ -52,7 +50,7 @@ export function HabitListScreen() {
 
   return (
     <SafeAreaView style={styles.root} edges={["top", "bottom"]}>
-      <LedgerHeader label={headerLabel} onNewHabit={openNewHabit} onOpenProfile={openProfile} />
+      <LedgerHeader label={headerLabel} onNewHabit={openNewHabit} />
 
       {rows.length === 0 ? (
         <View style={styles.emptyState}>

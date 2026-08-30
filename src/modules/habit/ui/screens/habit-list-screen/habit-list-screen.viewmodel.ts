@@ -84,10 +84,6 @@ export function useHabitListScreenViewModel() {
     router.push("/(app)/habits/new");
   }
 
-  function openProfile() {
-    router.push("/(app)/profile");
-  }
-
   return {
     isLoading,
     headerLabel: formatLedgerHeaderLabel(today),
@@ -103,6 +99,5 @@ export function useHabitListScreenViewModel() {
     },
     openHabit,
     openNewHabit,
-    openProfile,
   };
 }

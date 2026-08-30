@@ -1,6 +1,6 @@
 import { Pressable, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
-import { ActionIcon, AppText, ContinuityTrack, MonoLabel, type ContinuitySegment } from "@/shared/ui";
+import { AppText, ContinuityTrack, MonoLabel, type ContinuitySegment } from "@/shared/ui";
 import { useClosedDayLedgerStyles } from "./closed-day-ledger.styles";
 
 export interface ClosedDayRow {
@@ -18,7 +18,6 @@ export interface ClosedDayLedgerProps {
   segments: ContinuitySegment[];
   onNewHabit: () => void;
   onOpenHabit: (habitId: string) => void;
-  onOpenProfile: () => void;
 }
 
 /**
@@ -36,7 +35,6 @@ export function ClosedDayLedger({
   segments,
   onNewHabit,
   onOpenHabit,
-  onOpenProfile,
 }: ClosedDayLedgerProps) {
   const styles = useClosedDayLedgerStyles();
 
@@ -46,9 +44,6 @@ export function ClosedDayLedger({
         <MonoLabel tone="muted">{`${dateLabel} · CLOSED`}</MonoLabel>
         <View style={styles.topRowRight}>
           <MonoLabel tone="muted">{streakCount}</MonoLabel>
-          <Pressable onPress={onOpenProfile} hitSlop={12} accessibilityLabel="Perfil">
-            <ActionIcon name="profile" color={styles.iconColor} size={18} />
-          </Pressable>
           <Pressable onPress={onNewHabit} hitSlop={12} accessibilityLabel="Novo hábito">
             <AppText variant="title" tone="primary">
               +
