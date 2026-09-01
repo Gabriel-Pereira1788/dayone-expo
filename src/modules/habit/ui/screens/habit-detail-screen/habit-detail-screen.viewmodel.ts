@@ -6,6 +6,7 @@ import { useDeleteHabit } from "@/modules/habit/domain/useCases/delete-habit";
 import { useCheckInHabit } from "@/modules/streak/domain/useCases/check-in-habit";
 import { useUncheckHabit } from "@/modules/streak/domain/useCases/uncheck-habit";
 import { toDateKey } from "@/shared/helpers/date";
+import { hapticHabitCompleted, hapticHabitUnchecked } from "@/shared/helpers/haptics";
 import { computeHabitDashMarks, countMissed } from "@/modules/streak/utils";
 
 export function useHabitDetailScreenViewModel() {
@@ -31,8 +32,10 @@ export function useHabitDetailScreenViewModel() {
 
   function toggleCheck() {
     if (todayStreak) {
+      hapticHabitUnchecked();
       uncheckHabit(todayStreak.id);
     } else {
+      hapticHabitCompleted();
       checkInHabit(id);
     }
   }

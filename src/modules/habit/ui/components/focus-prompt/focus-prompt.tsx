@@ -11,6 +11,7 @@ import Animated, {
 } from "react-native-reanimated";
 import { AppText, DashTrack, MonoLabel, type DashMarkState } from "@/shared/ui";
 import { describeHabitContinuity, formatTimeOfDay } from "@/modules/habit/utils";
+import { hapticHabitCompleted, hapticHabitUnchecked, hapticSwipeThreshold } from "@/shared/helpers/haptics";
 import { useFocusPromptStyles } from "./focus-prompt.styles";
 
 const SWIPE_DISTANCE_THRESHOLD = -70;
@@ -59,6 +60,7 @@ export function FocusPrompt({
   const [phase, setPhase] = useState<"idle" | "confirming">("idle");
   const [completedAt, setCompletedAt] = useState<Date | null>(null);
   const translateY = useSharedValue(0);
+  const hasFiredThresholdTick = useSharedValue(false);
   const advanceTimer = useRef<number | null>(null);
 
   function handleComplete() {
@@ -70,6 +72,7 @@ export function FocusPrompt({
 
   function handleUndo() {
     clearTimeout(advanceTimer.current ?? undefined);
+    hapticHabitUnchecked();
     onUndo();
     setPhase("idle");
     setCompletedAt(null);
@@ -80,17 +83,31 @@ export function FocusPrompt({
     .enabled(phase === "idle")
     .activeOffsetY([-10, 10])
     .failOffsetX([-10, 10])
+    .onBegin(() => {
+      hasFiredThresholdTick.value = false;
+    })
     .onUpdate((event) => {
       const raw = event.translationY;
       // Rubber-band past the clamp instead of a hard stop, so the drag keeps
       // giving a little under the finger rather than feeling like a wall.
       translateY.value = raw > SWIPE_CLAMP ? raw : SWIPE_CLAMP + (raw - SWIPE_CLAMP) * SWIPE_RUBBER_BAND_FACTOR;
+
+      // A single tick right as the drag passes the point of no return, not
+      // on every frame past it.
+      const pastThreshold = raw < SWIPE_DISTANCE_THRESHOLD;
+      if (pastThreshold && !hasFiredThresholdTick.value) {
+        hasFiredThresholdTick.value = true;
+        hapticSwipeThreshold();
+      } else if (!pastThreshold && hasFiredThresholdTick.value) {
+        hasFiredThresholdTick.value = false;
+      }
     })
     .onEnd((event) => {
       const crossedThreshold =
         event.translationY < SWIPE_DISTANCE_THRESHOLD || event.velocityY < SWIPE_VELOCITY_THRESHOLD;
       if (crossedThreshold) {
         translateY.value = withSpring(SWIPE_CLAMP, CONFIRM_SPRING);
+        hapticHabitCompleted();
         runOnJS(handleComplete)();
       } else {
         translateY.value = withSpring(0);

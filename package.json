@@ -30,6 +30,7 @@
     "react-native-keyboard-controller": "^1.22.4",
     "react-native-mmkv": "^4.3.2",
     "react-native-nitro-modules": "^0.36.4",
+    "react-native-pulsar": "^1.7.0",
     "react-native-reanimated": "4.5.1",
     "react-native-safe-area-context": "~5.7.0",
     "react-native-schedule-notification": "^1.1.3",
