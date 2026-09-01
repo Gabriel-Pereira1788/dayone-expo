@@ -8,8 +8,7 @@
 
 - React Native 0.81.5 + React 19 + TypeScript (strict)
 - Expo ~54 with expo-router ~6 for file-based routing
-- @shopify/restyle for theming; StyleSheet + style hooks for component styles (legacy/existing components)
-- `heroui-native` + Uniwind/Tailwind CSS for new components (see "Sanctioned Exception: HeroUI Native")
+- @shopify/restyle for theming; StyleSheet + style hooks for component styles
 - react-native-reanimated for animations; @shopify/react-native-skia for graphics
 - react-hook-form + zod for forms and validation
 - i18next + react-i18next for internationalization
@@ -169,30 +168,6 @@ MUST:
 - Define styles via `StyleSheet.create({})` inside a `use[Component]Styles` hook
 - Never hardcode color values — always reference `theme.colors.*`
 - Never hardcode spacing values — always reference `theme.spacing.*`
-- Exception: components built on `heroui-native` use Uniwind/Tailwind `className` styling
-  instead — see "Sanctioned Exception: HeroUI Native" below; scoped narrowly to that library.
-
-## Sanctioned Exception: HeroUI Native for new components
-
-This project is additionally validating `heroui-native` (via Uniwind/Tailwind CSS) as the base
-component library for **new** UI work going forward. This is an **explicit, approved exception**
-to the "Theming and Styles" rule above, scoped narrowly:
-
-MUST (for new components/screens built on `heroui-native` only):
-- Style with Tailwind `className` (Uniwind) per HeroUI Native's own conventions — not
-  `StyleSheet`/`use[Component]Styles` hooks, not `@shopify/restyle` theme tokens.
-- Import components granularly (`heroui-native/button`, not the barrel `heroui-native`) to keep
-  bundle size down — mixing one barrel import with granular imports elsewhere defeats this.
-- Keep `HeroUINativeProvider` + `GestureHandlerRootView` at the app root (`app/_layout.tsx`) —
-  never re-wrap them per-screen.
-- Global Tailwind entry is `global.css` (project root), wired into Metro via
-  `withUniwindConfig` in `metro.config.js` — do not add a second CSS entry point.
-
-Existing components under `src/shared/ui/` and `src/modules/*/ui/` stay on `@shopify/restyle` +
-`StyleSheet` — this exception does NOT retroactively migrate them, and there is no migration
-plan yet. Do not mix the two styling systems inside a single component. Do not extend this
-exception to non-UI concerns (state, data-fetching, etc. — those rules are unaffected) without
-the same explicit approval.
 
 ## Routing
 
